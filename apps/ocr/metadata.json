@@ -1,0 +1,14 @@
+
+{
+ "id": "ocr",
+ "name": "Kroppslabbet OCR",
+ "shortName":"OCR",
+ "icon": "ocr.png",
+ "version":"0.10",
+ "description": "This app is for keeping track of activities in Kroppslabbet OCR workout",
+ "tags": "",
+ "storage": [
+  {"name":"ocr.app.js","url":"app.js"},
+  {"name":"ocr.img","url":"app-icon.js","evaluate":true}
+ ]
+}
