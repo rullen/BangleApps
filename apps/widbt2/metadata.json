@@ -1,7 +1,7 @@
 {
   "id": "widbt2",
   "name": "Bluetooth Widget 2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Show a bluetooth icon in upper left corner if bluetooth is connected",
   "icon": "widget.png",
   "type": "widget",
