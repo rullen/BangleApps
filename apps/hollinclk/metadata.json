@@ -1,0 +1,15 @@
+{
+  "id": "hollinclk",
+  "name": "Hollin Clock",
+  "version": "0.1.0",
+  "description": "A clock using the bold Anton font, display Jula BRP info during office hours",
+  "icon": "app.png",
+  "type": "clock",
+  "tags": "clock",
+  "supports": ["BANGLEJS2"],
+  "allow_emulator": true,
+  "storage": [
+    {"name":"hollinclk.app.js","url":"app.js"},
+    {"name":"hollinclk.img","url":"app-icon.js","evaluate":true}
+  ]
+}
