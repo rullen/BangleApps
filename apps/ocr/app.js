@@ -2,23 +2,23 @@ var data = [
   "200 m med tung boll",
   "Över/under x2",
   "Laxtrappa (alt. Skorsten)",
-  "Klätterväggen",
-  "Springa över boxar x2",
+  "Skullvalley",
+  "15 cal. Rodd",
   "Farmers Walk",
-  "Ringar",
+  "Rigg",
   "Rampen",
   "400 m med boll och över/under",
-  "Väggen",
-  "Skullvalley",
+  "Boll över vägg",
+  "Valkyrian (alt. 20 sek deadhang)",
   "Irländska bordet (alt. Över/under)",
-  "8 längder shuttlerun",
+  "10 Burpees",
+  "Dipwalk",
+  "Klättervägg",
   "Bära säck",
-  "Valkyrian (alt. Ringar)",
-  "Rigg",
   "400 m löpning med rigg",
   "Balansgång",
-  "Repklättring",
-  "Dragonsback x4"
+  "Dragonsback x4",
+  "Armgång"
 ];
 
 
