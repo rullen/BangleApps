@@ -46,13 +46,15 @@ function calc_ess(acc_magn) {
 var nextAlarm;
 active.forEach(alarm => {
   const now = new Date();
-  const t = require("sched").decodeTime(alarm.t);
-  var dateAlarm = new Date(now.getFullYear(), now.getMonth(), now.getDate(), t.hrs, t.mins);
+  const time = require("time_utils").decodeTime(alarm.t);
+  var dateAlarm = new Date(now.getFullYear(), now.getMonth(), now.getDate(), time.h, time.m);
   if (dateAlarm < now) { // dateAlarm in the past, add 24h
     dateAlarm.setTime(dateAlarm.getTime() + (24*60*60*1000));
   }
-  if (nextAlarm === undefined || dateAlarm < nextAlarm) {
-    nextAlarm = dateAlarm;
+  if ((alarm.dow >> dateAlarm.getDay()) & 1) { // check valid day of week
+    if (nextAlarm === undefined || dateAlarm < nextAlarm) {
+      nextAlarm = dateAlarm;
+    }
   }
 });
 
@@ -80,7 +82,7 @@ function drawApp() {
       layout.date.label = locale.time(now, BANGLEJS2 && Bangle.isLocked() ? 1 : 0); // hide seconds on bangle 2
       const diff = nextAlarm - now;
       const diffHour = Math.floor((diff % 86400000) / 3600000).toString();
-      const diffMinutes = Math.round(((diff % 86400000) % 3600000) / 60000).toString();
+      const diffMinutes = Math.floor(((diff % 86400000) % 3600000) / 60000).toString();
       layout.eta.label = "ETA: -"+ diffHour + ":" + diffMinutes.padStart(2, '0');
       layout.render();
     }
