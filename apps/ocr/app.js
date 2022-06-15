@@ -1,22 +1,5 @@
 var data = [
-	"400 m med hinder på baksidan",
-	"Balans",
-	"Väggen",
-	"Skullvalley",
-	"Repklättring",
-	"Farmer Walk",
-	"200 m med boll",
-	"Rampen",
-	"Krypa",
-	"Dragons back",
-	"Linbanan",
-	"Bära säck",
-	"Trapplöpning, 5 Squats innan ni korsar vägen ",
-	"Spinning Wheels",
-	"Ringar",
-	"Dipswalk",
-	"Klättervägg",
-	"Atlas stenar"
+	"400m löpning med rigg","Rigg","Klättervägg","Kasta prick","400m löpning","Atlas stenar","Ringar (+ Rigg)","Irländska bordet","100m med tung boll","Över/under x2","Repklättring","Skull valley","Trapplöpning, 3 squats innan korsande av väg","Väggen","Rampen","Balans ( 5 burpees)","400m löpning med rigg","Lowrig","Dragonsback x4","8 cal airbike"
 ];
 
 
