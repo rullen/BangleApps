@@ -1,5 +1,5 @@
 var data = [
-	"400m löpning med rigg","Rigg","Klättervägg","Kasta prick","400m löpning","Atlas stenar","Ringar (+ Rigg)","Irländska bordet","100m med tung boll","Över/under x2","Repklättring","Skull valley","Trapplöpning, 3 squats innan korsande av väg","Väggen","Rampen","Balans ( 5 burpees)","400m löpning med rigg","Lowrig","Dragonsback x4","8 cal airbike"
+	"400m löpning + över/under","Kryphinder","Skull-valley","Burpee box jumps x 7","400 m löpning + ringar/monkey bar","Irländska bordet","Low rig","Atlasstenar","Trapplöpning, 3 squats innan korsande av väg","Ringar (+rigg)","Dipswalk","Pull ups x 5 (x 8)","200 m löpning med tung boll","Laxtrappa (alt. Skorsten)","Väggarna","Repklättring i box (x 3)","Trapplöpning + 3 squats","Djävulstrappan (alt. Armgång)","Rampen","Utfallsteg med hantel × 16"
 ];
 
 
