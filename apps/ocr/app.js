@@ -33,7 +33,7 @@ global.GB = (event) => {
 };
 
 function quit() {
-	reset();
+	load();
 }
 
 function downloadWorkout() {
