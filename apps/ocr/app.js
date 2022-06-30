@@ -1,41 +1,113 @@
-var data = [
-	"400m löpning + över/under","Kryphinder","Skull-valley","Burpee box jumps x 7","400 m löpning + ringar/monkey bar","Irländska bordet","Low rig","Atlasstenar","Trapplöpning, 3 squats innan korsande av väg","Ringar (+rigg)","Dipswalk","Pull ups x 5 (x 8)","200 m löpning med tung boll","Laxtrappa (alt. Skorsten)","Väggarna","Repklättring i box (x 3)","Trapplöpning + 3 squats","Djävulstrappan (alt. Armgång)","Rampen","Utfallsteg med hantel × 16"
-];
+//require("Storage").writeJSON("ocr.steps.json", ["Test 1","Test 2","Test 3"]);
 
+var step = -1;
+var currentWatch = null;
+let steps = require('Storage').readJSON("ocr.steps.json",true);
 
-var pos = -1;
+global.GB = (event) => {
+  if(event.t == "http") {
+    if(event.err) {
+		E.showPrompt(event.err,{
+			title : "Fel vid nedladdning",
+			buttons : {"Tillbaka":true}
+		}).then(function(v) {
+			showMenu();
+		});
+	} else {
+		require("Storage").write("ocr.steps.json", event.resp);
+		steps = require('Storage').readJSON("ocr.steps.json",true);
+
+		if(steps == undefined) {
+			E.showPrompt(event.resp,{
+				title : "Fel vid nedladdning",
+				buttons : {"Tillbaka":true}
+			}).then(function(v) {
+				showMenu();
+			});
+		} else {
+			step = -1;
+			startWorkout();
+		}
+	}
+  }
+};
+
+function quit() {
+	reset();
+}
+
+function downloadWorkout() {
+	E.showMenu();
+
+	g.clear(true);
+
+	E.showPrompt("Laddar ner pass",{
+		buttons : {"Avbryt":true}
+	}).then(function(v) {
+		showMenu();
+	});
+
+	Bluetooth.println(JSON.stringify({t:"http", url:"https://events.hollin.se/webhook/?bangle=OCR&returnMode=line2json"}));
+
+}
+
+function startWorkout() {
+
+	if(steps == undefined) {
+		downloadWorkout();
+	}  else {
+
+		E.showMenu();
+		Bangle.setLCDTimeout(0);
+		Bangle.setLCDBrightness(0);
+		Bangle.setLCDPower(1);
+
+		nextStep();
+	}
+
+}
 
 function nextStep() {
 
   g.clear(true);
 
-  pos++;
+  step++;
 
-  if(pos >= data.length)
-    pos = 0;
+  if(step >= steps.length)
+    step = 0;
 
-  E.showMessage(data[pos],{
-    title:(pos+1)
+  E.showMessage(steps[step],{
+    title:(step+1)
   });
 
-  
-
-  setWatch(nextStep,BTN1);
+  currentWatch = setWatch(nextStep,BTN1);
 
 }
 
-Bangle.setLCDTimeout(0);
-Bangle.setLCDBrightness(0);
-Bangle.setLCDPower(1);
+var menu = {
+  "" : {
+    "title" : "-- OCR --"
+  },
+  "Kör pass" : startWorkout,
+  "Ladda ner pass" : downloadWorkout,
+  "Avsluta" : quit,
+};
 
-nextStep();
-//Bangle.on('swipe', function(direction) { nextStep(); return; });
+function showMenu() {
 
-/*
-require("Storage").write("kroppslabbet.info",{
-  "id":"kroppslabbet",
-  "name":"Kroppslabbet",
-  "src":"kroppslabbet.app.js",
-  "icon":"kroppslabbet.img"
-});
-*/
+	if(currentWatch != null) {
+		step--;
+		clearWatch(currentWatch);
+		currentWatch = null;
+	}
+
+	g.clear(true);
+	Bangle.setLCDTimeout(20);
+	Bangle.setLCDBrightness(1);
+	Bangle.setLCDPower(1);
+
+	E.showMenu(menu);
+}
+
+showMenu();
+Bangle.on('swipe', function(directionLR, directionUD) { showMenu(); });
