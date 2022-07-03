@@ -160,24 +160,24 @@ function startGame() {
 	update();
 
 	menu = {
-	  "" : {
+	"" : {
 		"title" : "-- Padel score --"
-	  },
-	  "Tillbaka" : closeMenu,
-	  "Starta ny match" : startGame,
-	  "Nollställ set" : resetSet,
-	  "Nollställ gem" : resetGame,
-	  "Avsluta app" : quit,
+	},
+	"Tillbaka" : closeMenu,
+	"Starta ny match" : startGame,
+	"Nollställ set" : resetSet,
+	"Nollställ gem" : resetGame,
+	"Avsluta app" : quit,
 	};
 
 }
 
 var menu = {
-  "" : {
-    "title" : "-- Padel score --"
-  },
-  "Starta ny match" : startGame,
-  "Avsluta app" : quit,
+	"" : {
+		"title" : "-- Padel score --"
+	},
+	"Starta ny match" : startGame,
+	"Avsluta app" : quit,
 };
 
 function showMenu() {
