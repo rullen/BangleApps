@@ -136,8 +136,8 @@ function quit() {
 }
 
 function resetSet() {
-	 scores = [0,0];
-	 closeMenu();
+	scores = [0,0];
+	closeMenu();
 }
 
 function resetGame() {
