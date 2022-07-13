@@ -146,12 +146,12 @@ function update() {
 
 	let url = "https://score.hollin.se/"+
 				"?id="+id+
-				"&score0="+scores[player1]+
-				"&score1="+scores[player2]+
-				"&game0="+games[player1]+
-				"&game1="+games[player2]+
-				"&set0="+sets[player1]+
-				"&set1="+sets[player2]+
+				"&score_0="+scores[player1]+
+				"&score_1="+scores[player2]+
+				"&game_0="+games[player1]+
+				"&game_1="+games[player2]+
+				"&set_0="+sets[player1]+
+				"&set_1="+sets[player2]+
 				"&server="+server+
 				"&tiebreak="+tiebreak;
 	Bluetooth.println(JSON.stringify({t:"http", url: url}));
