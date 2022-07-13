@@ -2,6 +2,7 @@ require('Font5x9Numeric7Seg').add(Graphics);
 require('Font7x11Numeric7Seg').add(Graphics);
 require('FontTeletext5x9Ascii').add(Graphics);
 
+let id = NRF.getAddress().substr().substr(12).replace(":","");
 let score00 = 0;
 let score15 = 1;
 let score30 = 2;
@@ -19,7 +20,8 @@ let player2 = 1;
 var scores;
 var sets;
 var games;
-
+var server;
+var tiebreak = false;
 var inMenu = false;
 
 function getXCoord(func) {
@@ -36,22 +38,24 @@ function updateScore(player) {
 	let x = getXCoord(width => player === player1 ? width/4 : width/4*3);
 	g.setFontAlign(0,0);
 	g.setFont('7x11Numeric7Seg',4);
-	g.drawString(formatNumber(tennisScores[score]),x,70);
+
+	if(!tiebreak) score = tennisScores[score];
+	g.drawString(formatNumber(score),x,70);
 }
 
-function updateGames(player) {
+function updateGame(player) {
 	let score = games[player];
-	g.setFontAlign(player === player1 ? -1 : 1,1);
-	g.setFont('5x9Numeric7Seg',2);
-	g.drawString(formatNumber(score),getXCoord(width => player === player1 ? 5 : width-3),height-20);
-}
-
-function updateSet(player) {
-	let score = sets[player];
 	let x = getXCoord(width => player === player1 ? width/2-10 : width/2+10);
 	g.setFontAlign(player === player1 ? 1 : -1,0);
 	g.setFont('7x11Numeric7Seg',2);
 	g.drawString(formatNumber(score),x,20);
+}
+
+function updateSet(player) {
+	let score = sets[player];
+	g.setFontAlign(player === player1 ? -1 : 1,1);
+	g.setFont('5x9Numeric7Seg',2);
+	g.drawString(formatNumber(score),getXCoord(width => player === player1 ? 5 : width-3),height-20);
 }
 
 function score(player) {
@@ -59,44 +63,65 @@ function score(player) {
 	let otherPlayer = player == player1 ? player2 : player1;
 	let otherScore = scores[otherPlayer];
 
-	if(myScore >= score40) {
-		if(otherScore < score40 || myScore == ad) {
-			return set(player);
-		} else if(myScore == score40) {
-			scores[player] = ad;
-			scores[otherPlayer] = dc;
-		} else {
-			scores[player] = score40;
-			scores[otherPlayer] = score40;
-		}
-	} else scores[player]++;
+	if(tiebreak) {
+
+		if(myScore >= 6 && myScore > otherScore - 2)
+			return game(player);
+
+		scores[player]++;
+
+	} else {
+
+		if(myScore >= score40) {
+			if(otherScore < score40 || myScore == ad) {
+				return game(player);
+			} else if(myScore == score40) {
+				scores[player] = ad;
+				scores[otherPlayer] = dc;
+			} else {
+				scores[player] = score40;
+				scores[otherPlayer] = score40;
+			}
+		} else scores[player]++;
+	}
 
 	Bangle.buzz(50);
 
 	update();
 }
 
-function set(player) {
-	let myScore = sets[player]+1;
+function game(player) {
+	let myScore = games[player]+1;
 	let otherPlayer = player == player1 ? player2 : player1;
-	let otherScore = sets[otherPlayer];
+	let otherScore = games[otherPlayer];
 
 	scores = [0,0];
 
-	if(myScore >= 7 && myScore > otherScore-2)
-		return game(player);
+	if(myScore == 7)
+		return set(player);
+	else if(myScore == 6 && otherScore == 6)
+		tiebreak = true;
+	else if(myScore == 6 && otherScore <= 4)
+		return set(player);
 
-	sets[player] = myScore;
+	games[player] = myScore;
 	Bangle.buzz(200);
-	update();
+	changeServer();
 }
 
-function game(player) {
-	sets = [0,0];
-	games[player]++;
+function changeServer() {
+	server = server == player1 ? player2 : player1;
+	closeMenu();
+}
+
+function set(player) {
+	sets[player]++;
+	games = [0,0];
+
+	tiebreak = false;
 
 	Bangle.buzz(1000);
-	update();
+	changeServer();
 }
 
 function draw() {
@@ -105,10 +130,10 @@ function draw() {
 
 	updateScore(player1);
 	updateScore(player2);
-	updateGames(player1);
-	updateGames(player2);
 	updateSet(player1);
 	updateSet(player2);
+	updateGame(player1);
+	updateGame(player2);
 
 	g.drawLine(getXCoord(width => width/2), 0, getXCoord(width => width/2), height);
 
@@ -118,14 +143,28 @@ function draw() {
 function update() {
 	inMenu = false;
 	draw();
-	//Bluetooth.println(JSON.stringify({t:"http", url:"https://events.hollin.se/webhook/?bangle=OCR&returnMode=line2json"}));
+
+	let url = "https://score.hollin.se/"+
+				"?id="+id+
+				"&score0="+scores[player1]+
+				"&score1="+scores[player2]+
+				"&game0="+games[player1]+
+				"&game1="+games[player2]+
+				"&set0="+sets[player1]+
+				"&set1="+sets[player2]+
+				"&server="+server+
+				"&tiebreak="+tiebreak;
+	Bluetooth.println(JSON.stringify({t:"http", url: url}));
 }
 
 function closeMenu() {
 	if(scores == null) {
-		startGame();
+		startMatch();
 	} else {
 		E.showMenu();
+		Bangle.setLCDTimeout(0);
+		Bangle.setLCDBrightness(0);
+		Bangle.setLCDPower(1);
 		inMenu = false;
 		update();
 	}
@@ -135,38 +174,35 @@ function quit() {
 	load();
 }
 
-function resetSet() {
-	scores = [0,0];
-	closeMenu();
-}
-
 function resetGame() {
 	scores = [0,0];
-	sets = [0,0];
 	closeMenu();
 }
 
-function startGame() {
+function resetSet() {
+	scores = [0,0];
+	games = [0,0];
+	closeMenu();
+}
 
-	E.showMenu();
-	Bangle.setLCDTimeout(0);
-	Bangle.setLCDBrightness(0);
-	Bangle.setLCDPower(1);
+function startMatch() {
 
+	server = player1;
 	scores = [0,0];
 	sets = [0,0];
 	games = [0,0];
 
-	update();
+	closeMenu();
 
 	menu = {
 	"" : {
 		"title" : "-- Padel score --"
 	},
 	"Tillbaka" : closeMenu,
-	"Starta ny match" : startGame,
-	"Nollställ set" : resetSet,
+	"Starta ny match" : startMatch,
+	"Byt servare" : changeServer,
 	"Nollställ gem" : resetGame,
+	"Nollställ set" : resetSet,
 	"Avsluta app" : quit,
 	};
 
@@ -176,7 +212,7 @@ var menu = {
 	"" : {
 		"title" : "-- Padel score --"
 	},
-	"Starta ny match" : startGame,
+	"Starta ny match" : startMatch,
 	"Avsluta app" : quit,
 };
 
