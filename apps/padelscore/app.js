@@ -144,7 +144,7 @@ function update() {
 	inMenu = false;
 	draw();
 
-	let url = "https://score.hollin.se/"+
+	let url = "https://score.hollin.se/update.php"+
 				"?id="+id+
 				"&score_0="+scores[player1]+
 				"&score_1="+scores[player2]+
