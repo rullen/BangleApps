@@ -1,7 +1,7 @@
 {
   "id": "padelscore",
   "name": "Padel Score",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "For keeping track of padel games",
   "icon": "app.png",
   "type": "app",
