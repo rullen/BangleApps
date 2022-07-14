@@ -144,6 +144,7 @@ function update() {
 	inMenu = false;
 	draw();
 
+	Bluetooth.println("");
 	let url = "https://score.hollin.se/update.php"+
 				"?id="+id+
 				"&score_0="+scores[player1]+
