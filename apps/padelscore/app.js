@@ -144,7 +144,6 @@ function update() {
 	inMenu = false;
 	draw();
 
-	Bluetooth.println("");
 	let url = "https://score.hollin.se/update.php"+
 				"?id="+id+
 				"&score_0="+scores[player1]+
@@ -155,6 +154,7 @@ function update() {
 				"&set_1="+sets[player2]+
 				"&server="+server+
 				"&tiebreak="+tiebreak;
+	Bluetooth.println("");
 	Bluetooth.println(JSON.stringify({t:"http", url: url}));
 }
 

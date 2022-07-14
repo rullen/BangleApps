@@ -47,6 +47,7 @@ function downloadWorkout() {
 		showMenu();
 	});
 
+	Bluetooth.println("");
 	Bluetooth.println(JSON.stringify({t:"http", url:"https://events.hollin.se/webhook/?bangle=OCR&returnMode=line2json"}));
 
 }
