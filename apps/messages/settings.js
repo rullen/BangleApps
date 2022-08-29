@@ -4,6 +4,7 @@
     if (settings.vibrate===undefined) settings.vibrate=":";
     if (settings.vibrateCalls===undefined) settings.vibrateCalls=":";
     if (settings.repeat===undefined) settings.repeat=4;
+    if (settings.vibrateTimeout===undefined) settings.vibrateTimeout=60;
     if (settings.unreadTimeout===undefined) settings.unreadTimeout=60;
     if (settings.maxMessages===undefined) settings.maxMessages=3;
     settings.unlockWatch=!!settings.unlockWatch;
@@ -28,6 +29,12 @@
       min: 0, max: 10,
       format: v => v?v+"s":/*LANG*/"Off",
       onchange: v => updateSetting("repeat", v)
+    },
+    /*LANG*/'Vibrate timer': {
+      value: settings().vibrateTimeout,
+      min: 0, max: settings().maxUnreadTimeout, step : 10,
+      format: v => v?v+"s":/*LANG*/"Off",
+      onchange: v => updateSetting("vibrateTimeout", v)
     },
     /*LANG*/'Unread timer': {
       value: settings().unreadTimeout,
@@ -56,6 +63,10 @@
     /*LANG*/'Quiet mode disables auto-open': {
       value: !!settings().quietNoAutOpn,
       onchange: v => updateSetting("quietNoAutOpn", v)
+    },
+    /*LANG*/'Disable auto-open': {
+      value: !!settings().noAutOpn,
+      onchange: v => updateSetting("noAutOpn", v)
     },
     /*LANG*/'Widget messages': {
       value:0|settings().maxMessages,
