@@ -59,7 +59,7 @@ function draw() {
   var dow = date.getDay();
   var hour = date.getHours(); 
   
-  if(g.stringWidth() > g.getWidth()) {
+  if(g.stringWidth(dateStr) > g.getWidth()) {
     dateStr = days[dow] + " " +date.getDate() + " "+months[date.getMonth()].substring(0,3);
   }
   
