@@ -45,44 +45,44 @@ function draw() {
   var x = g.getWidth() / 2;
   var y = g.getHeight() / 2 - 0;
   g.reset();
-  
+
   g.clearRect(0, 24, g.getWidth(), g.getHeight() - 24); // clear whole background (w/o widgets)
   var date = new Date(); // Actually the current date, this one is shown
   var timeStr = require("locale").time(date, 1); // Hour and minute
   g.setFontAlign(0, 0).setFont("Anton").drawString(timeStr, x, y); // draw time
-  
+
   y += 40;
   var days = ["SÖN","MÅN","TIS","ONS","TORS","FRE","LÖR"];
   var months = ["JANUARI","FEBRUARI","MARS","APRIL","MAJ","JUNI","JULI","AUGUSTI","SEPTEMBER","OKTOBER","NOVEMBER","DECEMBER"];
   var dateStr = days[date.getDay()] + " " +date.getDate() + " "+months[date.getMonth()];
-  
+
   var dow = date.getDay();
-  var hour = date.getHours(); 
-  
+  var hour = date.getHours();
+
+  g.setFont("6x8", 2);
   if(g.stringWidth(dateStr) > g.getWidth()-10) {
     dateStr = days[dow] + " " +date.getDate() + " "+months[date.getMonth()].substring(0,3);
   }
-  
+
   g.setFontAlign(0, 0);
-  g.setFont("6x8", 2);
   g.drawString(dateStr, x, y);
-  
+
   var weekNumber = ISO8601calWeek(date);
 
   var week = ("0" + weekNumber).slice(-2);
   var weekString = "";
-  
+
   var first = 35;
   var sprints = ["I4S1.1","I4S1.2","I4S2.1","I4S2.2","I4S3.1","I4S3.2","I4S4.1","I4S4.2","I5S1.1","I5S1.2","I5S2.1","I5S2.2","I5S3.1","I5S3.2","I5S4.1","I5S4.2","I6S1.1"];
-  var sprint = sprints[weekNumber-first]; 
-  
-  if(dow >= 1 && dow <=5 && hour >= 6 && hour <= 16 && sprint != "-") {  
+  var sprint = sprints[weekNumber-first];
+
+  if(dow >= 1 && dow <=5 && hour >= 6 && hour <= 16 && sprint != "-") {
     weekString = sprint + " ("+week+")";
   } else {
 	weekString = "VECKA " + week;
   }
 
-  g.drawString(weekString, x, y + 16);  
+  g.drawString(weekString, x, y + 16);
   queueDraw();
 }
 

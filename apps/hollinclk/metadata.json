@@ -1,7 +1,7 @@
 {
   "id": "hollinclk",
   "name": "Hollin Clock",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A clock using the bold Anton font, display Jula BRP info during office hours",
   "icon": "app.png",
   "type": "clock",
