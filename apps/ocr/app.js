@@ -4,34 +4,6 @@ var step = -1;
 var currentWatch = null;
 let steps = require('Storage').readJSON("ocr.steps.json",true);
 
-global.GB = (event) => {
-  if(event.t == "http") {
-    if(event.err) {
-		E.showPrompt(event.err,{
-			title : "Fel vid nedladdning",
-			buttons : {"Tillbaka":true}
-		}).then(function(v) {
-			showMenu();
-		});
-	} else {
-		require("Storage").write("ocr.steps.json", event.resp);
-		steps = require('Storage').readJSON("ocr.steps.json",true);
-
-		if(steps == undefined) {
-			E.showPrompt(event.resp,{
-				title : "Fel vid nedladdning",
-				buttons : {"Tillbaka":true}
-			}).then(function(v) {
-				showMenu();
-			});
-		} else {
-			step = -1;
-			startWorkout();
-		}
-	}
-  }
-};
-
 function quit() {
 	load();
 }
@@ -47,8 +19,22 @@ function downloadWorkout() {
 		showMenu();
 	});
 
-	Bluetooth.println("");
-	Bluetooth.println(JSON.stringify({t:"http", url:"https://events.hollin.se/webhook/?bangle=OCR&returnMode=line2json"}));
+	Bangle.http("https://events.hollin.se/webhook/?bangle=OCR&returnMode=line2json",{headers:{}}).then(data=>{
+		require("Storage").write("ocr.steps.json", data.resp);
+		steps = require('Storage').readJSON("ocr.steps.json",true);
+
+		if(steps == undefined) {
+			E.showPrompt(data.resp,{
+				title : "Fel vid nedladdning",
+				buttons : {"Tillbaka":true}
+			}).then(function(v) {
+				showMenu();
+			});
+		} else {
+			step = -1;
+			startWorkout();
+		}
+	});
 
 }
 
