@@ -22,7 +22,7 @@ function startWorkout() {
 
 	E.showMenu();
 	Bangle.setLCDTimeout(0);
-	Bangle.setLCDBrightness(0);
+  Bangle.setLCDBrightness(1);
 	Bangle.setLCDPower(1);
 
 	currentWatch = setWatch(function() {
@@ -32,6 +32,8 @@ function startWorkout() {
 		var minutes = Math.floor(counter/60);
 		var seconds = counter%60;
 		E.showMessage(minutes+" minuter\n"+seconds+" sekunder");
+
+    Bangle.setLCDBrightness(0);
 
 		currentWatch = setWatch(startWorkout,BTN1);
 	},BTN1);
