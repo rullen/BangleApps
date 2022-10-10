@@ -68,7 +68,7 @@ function saveCounter(count) {
 	if(count == undefined) count = 0;
 	counter = count;
 
-	require('Storage').write("hang.counter.txt",count);
+	require('Storage').write("hang.counter.txt",""+count);
 }
 
 var menu = {
