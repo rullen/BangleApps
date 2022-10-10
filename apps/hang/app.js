@@ -56,7 +56,7 @@ function startWorkout() {
 		var seconds = counter%60;
 		E.showMessage(minutes+" minuter\n"+seconds+" sekunder");
 
-		if(seconds == 30) {
+		if(counter%30 == 0) {
 			Bangle.buzz(1000);
 		}
 	},1000);

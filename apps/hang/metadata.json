@@ -1,9 +1,9 @@
 {
  "id": "hang",
  "name": "Hang Challenge",
- "shortName":"Hang",
+ "shortName":"Hang Challenge",
  "icon": "app.png",
- "version":"0.0.2",
+ "version":"0.0.3",
  "description": "This app is for tracking how long you can do something (hang for instance)",
  "tags": "",
  "supports": ["BANGLEJS2"],
