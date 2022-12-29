@@ -72,8 +72,8 @@ function draw() {
   var week = ("0" + weekNumber).slice(-2);
   var weekString = "";
 
-  var first = 35;
-  var sprints = ["I4S1.1","I4S1.2","I4S2.1","I4S2.2","I4S3.1","I4S3.2","I4S4.1","I4S4.2","I5S1.1","I5S1.2","I5S2.1","I5S2.2","I5S3.1","I5S3.2","I5S4.1","I5S4.2","I6S1.1"];
+  var first = 1;
+  var sprints = ["I6S2.1","I6S2.2","I6S3.1","I6S3.2","I6S4.1","I6S4.2","I6S5.1","I6S5.2","I7S1.1","I7S1.2","I7S2.1","I7S2.2","I7S3.1","I7S3.2","I7S4.1","I7S4.2","I8S1.1","I8S1.2","I8S2.1","I8S2.2","I8S3.1","I8S3.2","I8S4.1","I8S4.2","I8S5.1","I8S5.2","-","-","-","-","-","-","I8S6.1","I8S6.2","I9S1.1","I9S1.2","I9S2.1","I9S2.2","I9S3.1","I9S3.2","I9S4.1","I9S4.2","I10S1.1","I10S1.2","I10S2.1","I10S2.2","I10S3.1","I10S3.2","I10S4.1","I10S4.2","I11S1.1","I11S1.2"];
   var sprint = sprints[weekNumber-first];
 
   if(dow >= 1 && dow <=5 && hour >= 6 && hour <= 16 && sprint != "-") {
